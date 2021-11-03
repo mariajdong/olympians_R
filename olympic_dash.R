@@ -548,10 +548,6 @@ ui <- dashboardPage(
       tabItem(
         tabName = "t3",
         fluidPage(
-          tags$style(type = "text/css", "
-                     .irs-slider {width: 30px; height: 30px; top: 22px;}
-                     .irs-grid-text { font-size: 12pt; }
-          "),
           
           fluidRow(
             column(
@@ -565,6 +561,10 @@ ui <- dashboardPage(
           ),
           
           br(),
+          
+          tags$style(type = "text/css", "
+                     .irs-slider {width: 30px; height: 30px; top: 22px;}
+                     .irs-grid-text { font-size: 12pt; }"),
           
           fluidRow(
             column( width = 6,
@@ -705,11 +705,12 @@ server <- function(input, output, session){
         mapping = aes(
           x = height, 
           y = weight, 
-          color=sex
+          color=sex,
         ), 
         method = "lm", 
         se = FALSE) +  
       theme_update(text = element_text(size=20)) +
+      ylim(0, 200) +
       labs(title = "Height vs. Weight of All Olympians")
   }) #end ht/wt scatter plot for all
   
@@ -731,6 +732,7 @@ server <- function(input, output, session){
         method = "lm", 
         se = FALSE) +  
       theme_update(text = element_text(size=20)) +
+      ylim(0, 200) +
       labs(title = "Height vs. Weight of Medalists")
   }) #end ht/wt scatter plot for medalists
   
