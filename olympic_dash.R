@@ -65,6 +65,7 @@ ui <- dashboardPage(
   
   #begin sidebar
   dashboardSidebar(
+    #colorful olympic medals
     tags$img(
       src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Olympic_rings_without_rims.svg/1200px-Olympic_rings_without_rims.svg.png",
       style="width: 30%; margin-top: 10px; margin-left: 10px; margin-top: 10px"
@@ -77,6 +78,8 @@ ui <- dashboardPage(
       menuItem("Events, Medals, & Trends", tabName = "t3"),
       style="margin-top: 20px"
       ),
+    
+    #start icons under sidebarMenu
     tags$img(
       src="https://www.freeiconspng.com/uploads/sports-olympic-rings-icon-3.png",
       style="width: 100%;margin-top: 100px"
@@ -150,6 +153,7 @@ ui <- dashboardPage(
     #use custom theme
     use_theme(custom_theme),
     
+    
     #add css attributes
     tags$style(
       HTML('
@@ -160,6 +164,7 @@ ui <- dashboardPage(
       .skin-blue .main-header .logo,
       h1, h2, h3, h4 {
         font-family: "Bitter", serif;
+        font-size: 20pt;
       }
       
       .picrow {
@@ -543,6 +548,10 @@ ui <- dashboardPage(
       tabItem(
         tabName = "t3",
         fluidPage(
+          tags$style(type = "text/css", "
+                     .irs-slider {width: 30px; height: 30px; top: 22px;}
+                     .irs-grid-text { font-size: 12pt; }
+          "),
           
           fluidRow(
             column(
@@ -700,6 +709,7 @@ server <- function(input, output, session){
         ), 
         method = "lm", 
         se = FALSE) +  
+      theme_update(text = element_text(size=20)) +
       labs(title = "Height vs. Weight of All Olympians")
   }) #end ht/wt scatter plot for all
   
@@ -720,6 +730,7 @@ server <- function(input, output, session){
         ), 
         method = "lm", 
         se = FALSE) +  
+      theme_update(text = element_text(size=20)) +
       labs(title = "Height vs. Weight of Medalists")
   }) #end ht/wt scatter plot for medalists
   
@@ -767,7 +778,7 @@ server <- function(input, output, session){
   #total athlete counts plot
   output$line_all <- renderPlot({
     ggplot(country_filter_count()) +
-      geom_line(aes(year, count))
+      geom_line(aes(year, count), size = 2)
   }) #end total athlete plot
   
   #total athlete counts + gender facet
@@ -784,7 +795,7 @@ server <- function(input, output, session){
   #total athlete counts + gender facet plot
   output$line_facet <- renderPlot({
     ggplot(sex_facet()) +
-      geom_line(aes(year, count)) +
+      geom_line(aes(year, count, color = sex), size = 1.5) +
       facet_grid(rows = vars(sex)) +
       labs(title = 'faceted by gender')
   }) #end gender facet plot
